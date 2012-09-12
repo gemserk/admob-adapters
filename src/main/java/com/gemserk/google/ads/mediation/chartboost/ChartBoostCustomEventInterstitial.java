@@ -15,6 +15,8 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 	private static final String ChartBoostCustomEventTag = "ChartBoostCustomEvent";
 	private ChartBoost cb;
 
+	private static boolean shouldInstall = true;
+
 	private class InternalChartBoostDelegate extends ChartBoostDelegate {
 
 		private final int cacheCheckThreadSleepTime = 100;
@@ -76,6 +78,11 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 
 		cb = ChartBoost.getSharedChartBoost(activity);
 		cb.setDelegate(new InternalChartBoostDelegate(listener));
+
+		if (ChartBoostCustomEventInterstitial.shouldInstall) {
+			cb.install();
+			ChartBoostCustomEventInterstitial.shouldInstall = false;
+		}
 
 		String[] parameters = serverParameter.split(",");
 		if (parameters.length != 2) {
