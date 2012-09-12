@@ -7,6 +7,45 @@
 	<name>ChartBoost adatper for AdMob Mediation</name>
 	<description>ChartBoost adatper for AdMob Mediation</description>
 
+	<organization>
+		<name>Gemserk</name>
+		<url>http://www.gemserk.com</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>ariel.coppes</id>
+			<email>ariel.coppes@gemserk.com</email>
+			<organization>Gemserk</organization>
+			<name>Ariel Coppes</name>
+		</developer>
+		<developer>
+			<id>ruben.garat</id>
+			<email>ruben.garat@gemserk.com</email>
+			<organization>Gemserk</organization>
+			<name>Ruben Garat</name>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/gemserk/admob-chartboost-adapter.git</url>
+		<connection>scm:git://github.com/gemserk/admob-chartboost-adapter.git</connection>
+		<developerConnection>scm:git:git@github.com:gemserk/admob-chartboost-adapter.git</developerConnection>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>gemserk.releases</id>
+			<name>Gemserk Releases</name>
+			<url>https://maven.gemserk.com/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>gemserk.snapshots</id>
+			<name>Gemserk Snapshots</name>
+			<url>https://maven.gemserk.com/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
