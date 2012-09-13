@@ -1,4 +1,4 @@
-target/
-.classpath
-.project
-.settings
+chartboost-adapter/target/
+chartboost-adapter/.classpath
+chartboost-adapter/.project
+chartboost-adapter/.settings/
