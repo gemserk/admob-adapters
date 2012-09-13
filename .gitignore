@@ -3,5 +3,10 @@ chartboost-adapter/.classpath
 chartboost-adapter/.project
 chartboost-adapter/.settings/
 
+flurry-adapter/target/
+flurry-adapter/.classpath
+flurry-adapter/.project
+flurry-adapter/.settings/
+
 .project
 .settings/

@@ -49,6 +49,7 @@
 
 	<modules>
 		<module>chartboost-adapter</module>
+		<module>flurry-adapter</module>
 	</modules>
 
 	<prerequisites>

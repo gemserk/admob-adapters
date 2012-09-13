@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.gemserk.admob</groupId>
+		<artifactId>parent-adapter</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<packaging>jar</packaging>
+	<artifactId>flurry-adapter</artifactId>
+	<name>Flurry adatper for AdMob Mediation</name>
+	<description>Flurry adatper for AdMob Mediation</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.ads.admob</groupId>
+			<artifactId>admob</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.flurry</groupId>
+			<artifactId>flurryagent-ads</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+	</dependencies>
+
+</project>
