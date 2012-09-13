@@ -28,6 +28,7 @@ public class FlurryCustomEventBannerAdapter implements CustomEventBanner {
 		String adSpace = serverParameter;
 
 		FrameLayout.LayoutParams wrappedLayoutParams = new FrameLayout.LayoutParams(width, height);
+		
 		FrameLayout wrappedView = new FrameLayout(activity);
 		wrappedView.setLayoutParams(wrappedLayoutParams);
 

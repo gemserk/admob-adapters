@@ -74,7 +74,7 @@ public class FlurryAdView extends RelativeLayout {
 			switch (msg.what) {
 			case SHOW:
 				Log.d(FlurryLogTag.Tag, "Starting getAd() assuming it is already cached");
-				FlurryAgent.getAd(getContext(), adSpace, view, FlurryAdSize.BANNER_TOP, 10000L);
+				FlurryAgent.getAd(getContext(), adSpace, FlurryAdView.this, FlurryAdSize.BANNER_TOP, 10000L);
 				Log.d(FlurryLogTag.Tag, "Ad should be ready");
 				listener.onReceivedAd(view);
 				break;
