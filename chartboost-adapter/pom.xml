@@ -8,6 +8,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<packaging>jar</packaging>
 	<artifactId>chartboost-adapter</artifactId>
 	<name>ChartBoost adatper for AdMob Mediation</name>
 	<description>ChartBoost adatper for AdMob Mediation</description>

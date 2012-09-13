@@ -2,3 +2,6 @@ chartboost-adapter/target/
 chartboost-adapter/.classpath
 chartboost-adapter/.project
 chartboost-adapter/.settings/
+
+.project
+.settings/
