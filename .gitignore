@@ -8,5 +8,10 @@ flurry-adapter/.classpath
 flurry-adapter/.project
 flurry-adapter/.settings/
 
+leadbolt-adapter/target/
+leadbolt-adapter/.classpath
+leadbolt-adapter/.project
+leadbolt-adapter/.settings/
+
 .project
 .settings/

@@ -50,6 +50,7 @@
 	<modules>
 		<module>chartboost-adapter</module>
 		<module>flurry-adapter</module>
+		<module>leadbolt-adapter</module>
 	</modules>
 
 	<prerequisites>
