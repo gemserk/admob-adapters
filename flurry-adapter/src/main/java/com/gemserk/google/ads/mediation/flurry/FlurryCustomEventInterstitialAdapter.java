@@ -48,7 +48,7 @@ public class FlurryCustomEventInterstitialAdapter implements CustomEventIntersti
 
 		@Override
 		public boolean shouldDisplayAd(String arg0, FlurryAdType flurryAdType) {
-			return flurryAdType == FlurryAdType.WEB_BANNER;
+			return flurryAdType != FlurryAdType.WEB_BANNER;
 		}
 
 	}

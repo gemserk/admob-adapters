@@ -101,21 +101,27 @@ public class FlurryAdView extends RelativeLayout {
 		@Override
 		public void run() {
 			// Looper.prepare();
-			Log.d(FlurryLogTag.Tag, "Starting ad request");
-			FlurryAgent.setAdListener(new FlurryAdListener(listener));
-			if (FlurryAgent.isAdAvailable(getContext(), adSpace, FlurryAdSize.BANNER_TOP, timeout)) {
-				// if (FlurryAgent.getAd(getContext(), adSpace, view, FlurryAdSize.BANNER_TOP, timeout)) {
-				Log.d(FlurryLogTag.Tag, "Ad available, sending message to handler in the proper thread");
-				handler.sendEmptyMessage(SHOW);
-			} else {
-				Log.d(FlurryLogTag.Tag, "On ad failed");
-				listener.onFailedToReceiveAd();
+			try {
+				Log.d(FlurryLogTag.Tag, "Starting ad request");
+				FlurryAgent.setAdListener(new FlurryAdListener(listener));
+				if (FlurryAgent.isAdAvailable(getContext(), adSpace, FlurryAdSize.BANNER_TOP, timeout)) {
+					// if (FlurryAgent.getAd(getContext(), adSpace, view, FlurryAdSize.BANNER_TOP, timeout)) {
+					Thread.sleep(250);
+					Log.d(FlurryLogTag.Tag, "Ad available, sending message to handler in the proper thread");
+					handler.sendEmptyMessage(SHOW);
+					return;
+				}
+			} catch (InterruptedException e) {
+				Log.d(FlurryLogTag.Tag, "Ad request thread was interrupted: " + e.getMessage());
 			}
+			Log.d(FlurryLogTag.Tag, "On ad failed");
+			listener.onFailedToReceiveAd();
 		}
 	}
 
 	private String adSpace;
-	private Thread thread;
+
+	// private Thread thread;
 
 	public FlurryAdView(Context context, String adSpace) {
 		super(context);
@@ -123,17 +129,27 @@ public class FlurryAdView extends RelativeLayout {
 	}
 
 	public void loadNewAd(final long timeout, final CustomEventBannerListener listener, ViewGroup view) {
-		stopPreviousThread();
-		thread = new Thread(new FlurryAdRequestRunnable(listener, timeout, new FlurryAdHandler(listener, view)));
-		thread.start();
-	}
+		// stopPreviousThread();
+		// thread = new Thread(new FlurryAdRequestRunnable(listener, timeout, new FlurryAdHandler(listener, view)));
+		// thread.start();
 
-	private void stopPreviousThread() {
-		if (thread != null) {
-			thread.interrupt();
-			thread = null;
+		Log.d(FlurryLogTag.Tag, "Starting ad request");
+		FlurryAgent.setAdListener(new FlurryAdListener(listener));
+		if (FlurryAgent.getAd(getContext(), adSpace, this, FlurryAdSize.BANNER_TOP, timeout)) {
+			Log.d(FlurryLogTag.Tag, "Ad available");
+			listener.onReceivedAd(view);
+		} else {
+			Log.d(FlurryLogTag.Tag, "On ad failed");
+			listener.onFailedToReceiveAd();
 		}
 	}
+
+	// private void stopPreviousThread() {
+	// if (thread != null) {
+	// thread.interrupt();
+	// thread = null;
+	// }
+	// }
 
 	@Override
 	public void setVisibility(final int visibility) {
