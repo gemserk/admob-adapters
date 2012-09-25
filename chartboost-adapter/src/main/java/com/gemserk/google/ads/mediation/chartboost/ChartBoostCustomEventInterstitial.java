@@ -78,12 +78,7 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 
 		cb = ChartBoost.getSharedChartBoost(activity);
 		cb.setDelegate(new InternalChartBoostDelegate(listener));
-
-		if (ChartBoostCustomEventInterstitial.shouldInstall) {
-			cb.install();
-			ChartBoostCustomEventInterstitial.shouldInstall = false;
-		}
-
+		
 		String[] parameters = serverParameter.split(",");
 		if (parameters.length != 2) {
 			Log.d(ChartBoostCustomEventTag, "Invalid parameter " + serverParameter + ", needed \"appId,appSignature\"");
@@ -95,8 +90,13 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 
 		Log.d(ChartBoostCustomEventTag, "Received custom event with appId:" + appId + ", appSignature:" + appSignature);
 
-		this.cb.setAppId(appId);
-		this.cb.setAppSignature(appSignature);
+		cb.setAppId(appId);
+		cb.setAppSignature(appSignature);
+
+		if (ChartBoostCustomEventInterstitial.shouldInstall) {
+			cb.install();
+			ChartBoostCustomEventInterstitial.shouldInstall = false;
+		}
 
 		Log.d(ChartBoostCustomEventTag, "Caching interstitial ad");
 		cb.cacheInterstitial();
