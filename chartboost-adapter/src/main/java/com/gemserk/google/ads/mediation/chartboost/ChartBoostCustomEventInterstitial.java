@@ -15,7 +15,7 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 	private static final String ChartBoostCustomEventTag = "ChartBoostCustomEvent";
 	private ChartBoost cb;
 
-	private static boolean shouldInstall = true;
+	public static boolean shouldInstall = true;
 
 	private class InternalChartBoostDelegate extends ChartBoostDelegate {
 
@@ -69,7 +69,7 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 			super.didCloseInterstitial(interstitialView);
 			listener.onDismissScreen();
 		}
-
+		
 	}
 
 	@Override
@@ -94,8 +94,15 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 		cb.setAppSignature(appSignature);
 
 		if (ChartBoostCustomEventInterstitial.shouldInstall) {
+			cb.clearCache();
 			cb.install();
 			ChartBoostCustomEventInterstitial.shouldInstall = false;
+		}
+		
+		if (cb.hasCachedInterstitial()) {
+			Log.d(ChartBoostCustomEventTag, "Interstitial already cached");
+			listener.onReceivedAd();
+			return;
 		}
 
 		Log.d(ChartBoostCustomEventTag, "Caching interstitial ad");
