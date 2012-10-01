@@ -13,5 +13,10 @@ leadbolt-adapter/.classpath
 leadbolt-adapter/.project
 leadbolt-adapter/.settings/
 
+mobclix-adapter/target/
+mobclix-adapter/.classpath
+mobclix-adapter/.project
+mobclix-adapter/.settings/
+
 .project
 .settings/
