@@ -10,8 +10,8 @@
 
 	<packaging>jar</packaging>
 	<artifactId>leadbolt-adapter</artifactId>
-	<name>LeadBolt adatper for AdMob Mediation</name>
-	<description>LeadBolt adatper for AdMob Mediation</description>
+	<name>LeadBolt adapter for AdMob Mediation</name>
+	<description>LeadBolt adapter for AdMob Mediation</description>
 
 	<dependencies>
 		<dependency>

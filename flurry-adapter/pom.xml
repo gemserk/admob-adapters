@@ -10,8 +10,8 @@
 
 	<packaging>jar</packaging>
 	<artifactId>flurry-adapter</artifactId>
-	<name>Flurry adatper for AdMob Mediation</name>
-	<description>Flurry adatper for AdMob Mediation</description>
+	<name>Flurry adapter for AdMob Mediation</name>
+	<description>Flurry adapter for AdMob Mediation</description>
 
 	<dependencies>
 		<dependency>

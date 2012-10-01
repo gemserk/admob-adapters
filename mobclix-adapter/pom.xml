@@ -9,9 +9,9 @@
 	</parent>
 
 	<packaging>jar</packaging>
-	<artifactId>chartboost-adapter</artifactId>
-	<name>ChartBoost adapter for AdMob Mediation</name>
-	<description>ChartBoost adapter for AdMob Mediation</description>
+	<artifactId>mobclix-adapter</artifactId>
+	<name>Mobclix adapter for AdMob Mediation</name>
+	<description>Mobclix adapter for AdMob Mediation</description>
 
 	<dependencies>
 		<dependency>
@@ -23,9 +23,9 @@
 			<artifactId>admob</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.chartboost</groupId>
-			<artifactId>chartboost-ads</artifactId>
-			<version>3.0.1</version>
+			<groupId>com.mobclix</groupId>
+			<artifactId>mobclix-ads</artifactId>
+			<version>4.0.2</version>
 		</dependency>
 	</dependencies>
 
