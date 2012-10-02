@@ -59,7 +59,7 @@ public class MobclixCustomEventInterstitial implements CustomEventInterstitial {
 
 	private MobclixFullScreenAdView adView;
 
-	private String convertKeywords(Set<String> keywords) {
+	public static String convertKeywords(Set<String> keywords) {
 		if (keywords == null)
 			return null;
 		if (keywords.isEmpty())
@@ -77,7 +77,7 @@ public class MobclixCustomEventInterstitial implements CustomEventInterstitial {
 		Log.d(MobclixAdapterTag, "Received Mobclix custom interstitial with parameters : " + serverParameter);
 
 		try {
-			String keywords = convertKeywords(mediationAdRequest.getKeywords());
+			String keywords = MobclixCustomEventInterstitial.convertKeywords(mediationAdRequest.getKeywords());
 			
 			Log.d(MobclixAdapterTag, "Using keywords from mediationAdRequest: " + keywords);
 			
