@@ -59,7 +59,7 @@ public class MobclixCustomEventInterstitial implements CustomEventInterstitial {
 		Log.d(MobclixAdapterTag, "Received Mobclix custom interstitial with parameters : " + serverParameter);
 
 		adView = new MobclixFullScreenAdView(activity);
-		adView.setCreativeId(serverParameter);
+		// adView.setCreativeId(serverParameter);
 		adView.addMobclixAdViewListener(new MobclixInterstitialListener(listener));
 
 		if (adView.hasAd()) {
