@@ -1,5 +1,7 @@
 package com.gemserk.google.ads.mediation.mobclix;
 
+import java.util.Set;
+
 import android.app.Activity;
 import android.util.Log;
 
@@ -16,9 +18,11 @@ public class MobclixCustomEventInterstitial implements CustomEventInterstitial {
 	private class MobclixInterstitialListener implements MobclixFullScreenAdViewListener {
 
 		private final CustomEventInterstitialListener listener;
+		private final String keywords;
 
-		public MobclixInterstitialListener(CustomEventInterstitialListener listener) {
+		public MobclixInterstitialListener(CustomEventInterstitialListener listener, String keywords) {
 			this.listener = listener;
+			this.keywords = keywords;
 		}
 
 		@Override
@@ -49,19 +53,36 @@ public class MobclixCustomEventInterstitial implements CustomEventInterstitial {
 
 		@Override
 		public String keywords() {
-			return null;
+			return keywords;
 		}
 	}
 
 	private MobclixFullScreenAdView adView;
+
+	private String convertKeywords(Set<String> keywords) {
+		if (keywords == null)
+			return null;
+		if (keywords.isEmpty())
+			return null;
+		StringBuilder stringBuilder = new StringBuilder();
+		for (String keyword : keywords) {
+			stringBuilder.append(keyword);
+			stringBuilder.append(",");
+		}
+		return stringBuilder.substring(0, stringBuilder.length() - 1);
+	}
 
 	@Override
 	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest) {
 		Log.d(MobclixAdapterTag, "Received Mobclix custom interstitial with parameters : " + serverParameter);
 
 		try {
+			String keywords = convertKeywords(mediationAdRequest.getKeywords());
+			
+			Log.d(MobclixAdapterTag, "Using keywords from mediationAdRequest: " + keywords);
+			
 			adView = new MobclixFullScreenAdView(activity);
-			adView.addMobclixAdViewListener(new MobclixInterstitialListener(listener));
+			adView.addMobclixAdViewListener(new MobclixInterstitialListener(listener, keywords));
 
 			if (adView.hasAd()) {
 				Log.d(MobclixAdapterTag, "Interstitial already cached");
