@@ -16,8 +16,11 @@ import com.google.ads.mediation.customevent.CustomEventInterstitialListener;
 
 public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 
+	public static long FLURRY_INTERSTITIAL_TIMEOUT = 10000L;
+
 	private Activity activity;
 	private String adSpace;
+	private boolean adAvailable;
 
 	private class FlurryInterstitialAdListener implements IListener {
 
@@ -69,8 +72,7 @@ public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 		
 		FlurryAgent.setAdListener(new FlurryInterstitialAdListener(listener));
 		
-		long timeout = 10000L;
-		boolean adAvailable = FlurryAgent.isAdAvailable(activity, adSpace, FlurryAdSize.FULLSCREEN, timeout);
+		adAvailable = FlurryAgent.isAdAvailable(activity, adSpace, FlurryAdSize.FULLSCREEN, FLURRY_INTERSTITIAL_TIMEOUT);
 		
 		if (!adAvailable) {
 			listener.onFailedToReceiveAd();
@@ -82,7 +84,8 @@ public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 
 	@Override
 	public void showInterstitial() {
-		FlurryAgent.getAd(activity, adSpace, new RelativeLayout(activity), FlurryAdSize.FULLSCREEN, 0L);
+		if (adAvailable)
+			FlurryAgent.getAd(activity, adSpace, new RelativeLayout(activity), FlurryAdSize.FULLSCREEN, 0L);
 	}
 
 }
