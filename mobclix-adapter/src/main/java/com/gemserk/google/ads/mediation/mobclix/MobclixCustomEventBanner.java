@@ -67,9 +67,9 @@ public class MobclixCustomEventBanner implements CustomEventBanner {
 		public String query() {
 			return null;
 		}
-		
+
 	}
-	
+
 	@Override
 	public void requestBannerAd(CustomEventBannerListener listener, Activity activity, String label, String serverParameter, AdSize size, MediationAdRequest mediationAdRequest) {
 		Log.d(MobclixAdapterTag, "Received Mobclix custom event with parameters : " + serverParameter);

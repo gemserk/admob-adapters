@@ -4,6 +4,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.RelativeLayout;
 
 import com.flurry.android.FlurryAdSize;
 import com.flurry.android.FlurryAdType;
@@ -13,7 +14,10 @@ import com.google.ads.mediation.MediationAdRequest;
 import com.google.ads.mediation.customevent.CustomEventInterstitial;
 import com.google.ads.mediation.customevent.CustomEventInterstitialListener;
 
-public class FlurryCustomEventInterstitialAdapter implements CustomEventInterstitial {
+public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
+
+	private Activity activity;
+	private String adSpace;
 
 	private class FlurryInterstitialAdListener implements IListener {
 
@@ -40,7 +44,7 @@ public class FlurryCustomEventInterstitialAdapter implements CustomEventIntersti
 			Log.d(FlurryLogTag.Tag, "On render failed " + arg0);
 			listener.onFailedToReceiveAd();
 		}
-
+		
 		@Override
 		public void onReward(String arg0, Map<String, String> arg1) {
 			Log.d(FlurryLogTag.Tag, "On reward " + arg0);
@@ -56,19 +60,29 @@ public class FlurryCustomEventInterstitialAdapter implements CustomEventIntersti
 	@Override
 	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, //
 			String serverParameter, MediationAdRequest mediationAdRequest) {
+		this.activity = activity;
+		
 		FlurryAgent.initializeAds(activity);
 		FlurryAgent.enableTestAds(mediationAdRequest.isTesting());
 
-		String adSpace = serverParameter;
+		adSpace = serverParameter;
 		
 		FlurryAgent.setAdListener(new FlurryInterstitialAdListener(listener));
 		
-		FlurryAgent.isAdAvailable(activity, adSpace, FlurryAdSize.FULLSCREEN, 10000L);
+		long timeout = 10000L;
+		boolean adAvailable = FlurryAgent.isAdAvailable(activity, adSpace, FlurryAdSize.FULLSCREEN, timeout);
+		
+		if (!adAvailable) {
+			listener.onFailedToReceiveAd();
+			return;
+		}
+		
+		listener.onReceivedAd();
 	}
 
 	@Override
 	public void showInterstitial() {
-		
+		FlurryAgent.getAd(activity, adSpace, new RelativeLayout(activity), FlurryAdSize.FULLSCREEN, 0L);
 	}
 
 }

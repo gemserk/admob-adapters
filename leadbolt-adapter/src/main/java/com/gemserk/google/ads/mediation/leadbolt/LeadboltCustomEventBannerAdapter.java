@@ -66,6 +66,7 @@ public class LeadboltCustomEventBannerAdapter implements CustomEventBanner {
 		@Override
 		public void onAdClosed() {
 			Log.d(LeadBoltAdapterTag, "onAdClosed");
+			listener.onDismissScreen();
 		}
 
 		@Override
