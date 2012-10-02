@@ -59,7 +59,7 @@ public class MobclixCustomEventInterstitial implements CustomEventInterstitial {
 
 	private MobclixFullScreenAdView adView;
 
-	private String convertKeywords(Set<String> keywords) {
+	public static String convertKeywords(Set<String> keywords) {
 		if (keywords == null)
 			return null;
 		if (keywords.isEmpty())
