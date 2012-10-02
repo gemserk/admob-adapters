@@ -51,6 +51,7 @@
 		<module>chartboost-adapter</module>
 		<module>flurry-adapter</module>
 		<module>leadbolt-adapter</module>
+		<module>mobclix-adapter</module>
 	</modules>
 
 	<prerequisites>
