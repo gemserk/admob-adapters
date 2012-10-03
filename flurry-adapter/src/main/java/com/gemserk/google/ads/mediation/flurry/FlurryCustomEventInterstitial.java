@@ -24,6 +24,8 @@ public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 
 	private RelativeLayout viewGroup;
 
+	private Thread interstitialAdRequestThread;
+
 	private class FlurryInterstitialAdListener implements IListener {
 
 		private CustomEventInterstitialListener listener;
@@ -62,6 +64,23 @@ public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 
 	}
 
+	private class FlurryAdRequestRunnable implements Runnable {
+
+		private CustomEventInterstitialListener listener;
+		private long timeout;
+
+		private FlurryAdRequestRunnable(CustomEventInterstitialListener listener, long timeout) {
+			this.listener = listener;
+			this.timeout = timeout;
+		}
+
+		@Override
+		public void run() {
+			checkAdAvailable(listener, timeout);
+		}
+
+	}
+
 	@Override
 	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, //
 			String serverParameter, MediationAdRequest mediationAdRequest) {
@@ -79,10 +98,17 @@ public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 
 		adSpace = serverParameter;
 
+		interstitialAdRequestThread = new Thread(new FlurryAdRequestRunnable(listener, FLURRY_INTERSTITIAL_TIMEOUT));
+		interstitialAdRequestThread.start();
+
+		// checkAdAvailable(listener, FLURRY_INTERSTITIAL_TIMEOUT);
+	}
+
+	private synchronized void checkAdAvailable(CustomEventInterstitialListener listener, long timeout) {
 		FlurryAgent.setAdListener(new FlurryInterstitialAdListener(listener));
 
 		Log.d(FlurryLogTag.Tag, "Checking if fullscreen ad is available");
-		adAvailable = FlurryAgent.isAdAvailable(activity, adSpace, FlurryAdSize.FULLSCREEN, FLURRY_INTERSTITIAL_TIMEOUT);
+		adAvailable = FlurryAgent.isAdAvailable(activity, adSpace, FlurryAdSize.FULLSCREEN, timeout);
 
 		if (!adAvailable) {
 			Log.d(FlurryLogTag.Tag, "Failed to recieve fullscreen ad.");
