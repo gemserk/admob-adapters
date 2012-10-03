@@ -22,6 +22,8 @@ public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 	private String adSpace;
 	private boolean adAvailable;
 
+	private RelativeLayout viewGroup;
+
 	private class FlurryInterstitialAdListener implements IListener {
 
 		private CustomEventInterstitialListener listener;
@@ -47,7 +49,7 @@ public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 			Log.d(FlurryLogTag.Tag, "On render failed " + arg0);
 			listener.onFailedToReceiveAd();
 		}
-		
+
 		@Override
 		public void onReward(String arg0, Map<String, String> arg1) {
 			Log.d(FlurryLogTag.Tag, "On reward " + arg0);
@@ -63,29 +65,42 @@ public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 	@Override
 	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, //
 			String serverParameter, MediationAdRequest mediationAdRequest) {
+		Log.d(FlurryLogTag.Tag, "Interstitial ad request from Admob with parameters " + serverParameter);
+
 		this.activity = activity;
-		
+
 		FlurryAgent.initializeAds(activity);
-		FlurryAgent.enableTestAds(mediationAdRequest.isTesting());
+		boolean testing = mediationAdRequest.isTesting();
+
+		if (testing) {
+			Log.d(FlurryLogTag.Tag, "Test mode enabled");
+			FlurryAgent.enableTestAds(testing);
+		}
 
 		adSpace = serverParameter;
-		
+
 		FlurryAgent.setAdListener(new FlurryInterstitialAdListener(listener));
-		
+
+		Log.d(FlurryLogTag.Tag, "Checking if fullscreen ad is available");
 		adAvailable = FlurryAgent.isAdAvailable(activity, adSpace, FlurryAdSize.FULLSCREEN, FLURRY_INTERSTITIAL_TIMEOUT);
-		
+
 		if (!adAvailable) {
+			Log.d(FlurryLogTag.Tag, "Failed to recieve fullscreen ad.");
 			listener.onFailedToReceiveAd();
 			return;
 		}
-		
+
+		Log.d(FlurryLogTag.Tag, "Received fullscreen ad.");
 		listener.onReceivedAd();
 	}
 
 	@Override
 	public void showInterstitial() {
-		if (adAvailable)
-			FlurryAgent.getAd(activity, adSpace, new RelativeLayout(activity), FlurryAdSize.FULLSCREEN, 0L);
+		if (adAvailable) {
+			Log.d(FlurryLogTag.Tag, "Showing already cached fullscreen ad");
+			viewGroup = new RelativeLayout(activity);
+			FlurryAgent.getAd(activity, adSpace, viewGroup, FlurryAdSize.FULLSCREEN, 0L);
+		}
 	}
 
 }
