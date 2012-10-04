@@ -52,6 +52,7 @@
 		<module>flurry-adapter</module>
 		<module>leadbolt-adapter</module>
 		<module>mobclix-adapter</module>
+		<module>revmob-adapter</module>
 	</modules>
 
 	<prerequisites>

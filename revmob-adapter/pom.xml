@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.gemserk.admob</groupId>
+		<artifactId>parent-adapter</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<packaging>jar</packaging>
+	<artifactId>revmob-adapter</artifactId>
+	<name>Revmob adapter for AdMob Mediation</name>
+	<description>Revmob adapter for AdMob Mediation</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.ads.admob</groupId>
+			<artifactId>admob</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.revmob</groupId>
+			<artifactId>revmob-ads</artifactId>
+			<version>4.2.4</version>
+		</dependency>
+	</dependencies>
+
+</project>
