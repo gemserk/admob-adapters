@@ -18,5 +18,10 @@ mobclix-adapter/.classpath
 mobclix-adapter/.project
 mobclix-adapter/.settings/
 
+revmob-adapter/target/
+revmob-adapter/.classpath
+revmob-adapter/.project
+revmob-adapter/.settings/
+
 .project
 .settings/
