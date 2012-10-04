@@ -11,10 +11,9 @@ import com.revmob.ads.EnvironmentConfig;
 import com.revmob.ads.RevMobAdsListener;
 import com.revmob.ads.fullscreen.Fullscreen;
 
-public class RevmobCustomEventInterstitial implements CustomEventInterstitial {
+public class RevMobCustomEventInterstitial implements CustomEventInterstitial {
 
 	private static final String Tag = "RevmobInterstitialAdapter";
-	private static RevMob revmob = null;
 
 	private class RecMobAdslistener implements RevMobAdsListener {
 
@@ -57,7 +56,7 @@ public class RevmobCustomEventInterstitial implements CustomEventInterstitial {
 	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest) {
 		Log.d(Tag, "Ad request received with parameters " + serverParameter);
 
-		EnvironmentConfig.setTestingWithoutAds(mediationAdRequest.isTesting());
+		EnvironmentConfig.setTestingMode(mediationAdRequest.isTesting());
 
 		String[] parameters = serverParameter.split(",");
 
@@ -71,15 +70,15 @@ public class RevmobCustomEventInterstitial implements CustomEventInterstitial {
 		if (parameters.length >= 2)
 			placementId = parameters[1];
 
-		if (!RevMob.hasSession())
-			revmob = RevMob.start(activity, appId);
+		
+		RevMob revMob = RevMobInstance.getInstance(activity, appId);
 
 		Log.d(Tag, "Starting fullscreen ad request with appId: " + appId + ", placementId: " + placementId);
 
 		if (placementId == null)
-			fullscreen = revmob.createFullscreen(activity);
+			fullscreen = revMob.createFullscreen(activity);
 		else
-			fullscreen = revmob.createFullscreen(activity, placementId);
+			fullscreen = revMob.createFullscreen(activity, placementId);
 
 		fullscreen.setRevMobListener(new RecMobAdslistener(listener));
 	}
