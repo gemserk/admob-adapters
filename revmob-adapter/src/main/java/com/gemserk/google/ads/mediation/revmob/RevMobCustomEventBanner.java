@@ -61,7 +61,12 @@ public class RevMobCustomEventBanner implements CustomEventBanner {
 	public void requestBannerAd(CustomEventBannerListener listener, Activity activity, String label, String serverParameter, AdSize size, MediationAdRequest mediationAdRequest) {
 		Log.d(Tag, "Ad request received with parameters " + serverParameter);
 
-		EnvironmentConfig.setTestingMode(mediationAdRequest.isTesting());
+		boolean testMode = mediationAdRequest.isTesting();
+		
+		if (testMode) {
+			Log.d(Tag, "Test mode enabled");
+			EnvironmentConfig.setTestingMode(testMode);
+		}
 
 		String[] parameters = serverParameter.split(",");
 
