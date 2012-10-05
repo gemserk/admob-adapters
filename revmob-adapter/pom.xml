@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>com.revmob</groupId>
 			<artifactId>revmob-ads</artifactId>
-			<version>4.2.4</version>
+			<version>4.2.6</version>
 		</dependency>
 	</dependencies>
 
