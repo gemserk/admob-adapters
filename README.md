@@ -7,5 +7,8 @@ Ad networks so far
 ------------
 
 * ChartBoost interstitials
-* Flurry banners (not working properly)
-* LeadBolt banners (not working properly)
+* Flurry Banners and Interstitials (not working properly)
+* LeadBolt Banners (not working properly)
+* Mobclix Banners and Interstitials
+* RevMob Banners and Interstitials
+
