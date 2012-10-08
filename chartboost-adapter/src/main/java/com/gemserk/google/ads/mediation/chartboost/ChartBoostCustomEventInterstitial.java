@@ -69,7 +69,13 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 			super.didCloseInterstitial(interstitialView);
 			listener.onDismissScreen();
 		}
-		
+
+		@Override
+		public void didClickInterstitial(View interstitialView) {
+			super.didClickInterstitial(interstitialView);
+			listener.onLeaveApplication();
+		}
+
 	}
 
 	@Override
@@ -78,7 +84,7 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 
 		cb = ChartBoost.getSharedChartBoost(activity);
 		cb.setDelegate(new InternalChartBoostDelegate(listener));
-		
+
 		String[] parameters = serverParameter.split(",");
 		if (parameters.length != 2) {
 			Log.d(ChartBoostCustomEventTag, "Invalid parameter " + serverParameter + ", needed \"appId,appSignature\"");
@@ -98,7 +104,7 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 			cb.install();
 			ChartBoostCustomEventInterstitial.shouldInstall = false;
 		}
-		
+
 		if (cb.hasCachedInterstitial()) {
 			Log.d(ChartBoostCustomEventTag, "Interstitial already cached");
 			listener.onReceivedAd();
