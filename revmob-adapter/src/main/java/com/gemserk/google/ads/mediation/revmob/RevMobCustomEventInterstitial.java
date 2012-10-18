@@ -53,7 +53,7 @@ public class RevMobCustomEventInterstitial implements CustomEventInterstitial {
 	private Fullscreen fullscreen;
 
 	@Override
-	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest) {
+	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		Log.d(Tag, "Ad request received with parameters " + serverParameter);
 
 		EnvironmentConfig.setTestingMode(mediationAdRequest.isTesting());
@@ -88,6 +88,10 @@ public class RevMobCustomEventInterstitial implements CustomEventInterstitial {
 		if (fullscreen.isAdLoaded()) {
 			fullscreen.show();
 		}
+	}
+
+	@Override
+	public void destroy() {
 	}
 
 }

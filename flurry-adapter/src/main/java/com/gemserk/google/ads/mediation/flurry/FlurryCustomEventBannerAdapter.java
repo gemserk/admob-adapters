@@ -2,6 +2,7 @@ package com.gemserk.google.ads.mediation.flurry;
 
 import android.app.Activity;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -15,7 +16,7 @@ public class FlurryCustomEventBannerAdapter implements CustomEventBanner {
 
 	@Override
 	public void requestBannerAd(final CustomEventBannerListener listener, final Activity activity, String label, String serverParameter, //
-			AdSize size, MediationAdRequest mediationAdRequest) {
+			AdSize size, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		FlurryAgent.initializeAds(activity);
 		FlurryAgent.enableTestAds(mediationAdRequest.isTesting());
 
@@ -37,5 +38,9 @@ public class FlurryCustomEventBannerAdapter implements CustomEventBanner {
 		wrappedView.addView(adView, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
 
 		adView.loadNewAd(10000L, listener, wrappedView);
+	}
+
+	@Override
+	public void destroy() {
 	}
 }

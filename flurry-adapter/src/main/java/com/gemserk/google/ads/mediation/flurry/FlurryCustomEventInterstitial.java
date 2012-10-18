@@ -83,7 +83,7 @@ public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 
 	@Override
 	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, //
-			String serverParameter, MediationAdRequest mediationAdRequest) {
+			String serverParameter, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		Log.d(FlurryLogTag.Tag, "Interstitial ad request from Admob with parameters " + serverParameter);
 
 		this.activity = activity;
@@ -127,6 +127,10 @@ public class FlurryCustomEventInterstitial implements CustomEventInterstitial {
 			viewGroup = new RelativeLayout(activity);
 			FlurryAgent.getAd(activity, adSpace, viewGroup, FlurryAdSize.FULLSCREEN, 0L);
 		}
+	}
+
+	@Override
+	public void destroy() {
 	}
 
 }

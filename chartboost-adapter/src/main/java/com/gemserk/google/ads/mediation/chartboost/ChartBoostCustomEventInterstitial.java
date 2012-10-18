@@ -79,7 +79,7 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 	}
 
 	@Override
-	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest) {
+	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		Log.d(ChartBoostCustomEventTag, "Received an interstitial ad request for " + label);
 
 		cb = ChartBoost.getSharedChartBoost(activity);
@@ -119,6 +119,12 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 	public void showInterstitial() {
 		Log.d(ChartBoostCustomEventTag, "Showing previously loaded interstitial ad");
 		cb.showInterstitial();
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -58,7 +58,7 @@ public class RevMobCustomEventBanner implements CustomEventBanner {
 	private String placementId;
 
 	@Override
-	public void requestBannerAd(CustomEventBannerListener listener, Activity activity, String label, String serverParameter, AdSize size, MediationAdRequest mediationAdRequest) {
+	public void requestBannerAd(CustomEventBannerListener listener, Activity activity, String label, String serverParameter, AdSize size, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		Log.d(Tag, "Ad request received with parameters " + serverParameter);
 
 		boolean testMode = mediationAdRequest.isTesting();
@@ -93,6 +93,10 @@ public class RevMobCustomEventBanner implements CustomEventBanner {
 		Banner banner = revMob.createBanner(activity, placementId);
 		banner.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
 		banner.setAdsListener(new RevMobBannerListener(listener, banner));
+	}
+
+	@Override
+	public void destroy() {
 	}
 
 }

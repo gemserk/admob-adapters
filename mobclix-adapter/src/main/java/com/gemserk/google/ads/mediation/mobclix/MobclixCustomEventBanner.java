@@ -14,6 +14,7 @@ import com.mobclix.android.sdk.MobclixMMABannerXLAdView;
 public class MobclixCustomEventBanner implements CustomEventBanner {
 
 	private static final String MobclixAdapterTag = "MobclixCustomEventBanner";
+	private MobclixMMABannerXLAdView adView;
 
 	public static class MobclixBannerListener implements MobclixAdViewListener {
 
@@ -71,7 +72,8 @@ public class MobclixCustomEventBanner implements CustomEventBanner {
 	}
 
 	@Override
-	public void requestBannerAd(CustomEventBannerListener listener, Activity activity, String label, String serverParameter, AdSize size, MediationAdRequest mediationAdRequest) {
+	public void requestBannerAd(CustomEventBannerListener listener, Activity activity, String label, String serverParameter, AdSize size, MediationAdRequest mediationAdRequest, Object customEventExtra) {
+		
 		Log.d(MobclixAdapterTag, "Received Mobclix custom event with parameters : " + serverParameter);
 
 		try {
@@ -79,7 +81,7 @@ public class MobclixCustomEventBanner implements CustomEventBanner {
 
 			Log.d(MobclixAdapterTag, "Using keywords from mediationAdRequest: " + keywords);
 
-			MobclixMMABannerXLAdView adView = new MobclixMMABannerXLAdView(activity);
+			adView = new MobclixMMABannerXLAdView(activity);
 			adView.addMobclixAdViewListener(new MobclixBannerListener(listener, keywords));
 
 			adView.getAd();
@@ -87,6 +89,12 @@ public class MobclixCustomEventBanner implements CustomEventBanner {
 			Log.d(MobclixAdapterTag, "Failed to process mobclix banner : " + e.getMessage());
 			listener.onFailedToReceiveAd();
 		}
+	}
+
+	@Override
+	public void destroy() {
+		adView.destroy();
+		Log.d(MobclixAdapterTag,"Destroy adapter called");
 	}
 
 }

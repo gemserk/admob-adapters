@@ -73,7 +73,7 @@ public class MobclixCustomEventInterstitial implements CustomEventInterstitial {
 	}
 
 	@Override
-	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest) {
+	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		Log.d(MobclixAdapterTag, "Received Mobclix custom interstitial with parameters : " + serverParameter);
 
 		try {
@@ -102,6 +102,10 @@ public class MobclixCustomEventInterstitial implements CustomEventInterstitial {
 	public void showInterstitial() {
 		Log.d(MobclixAdapterTag, "Displaying cached interstitial");
 		adView.displayRequestedAd();
+	}
+
+	@Override
+	public void destroy() {
 	}
 
 }

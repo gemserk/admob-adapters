@@ -82,7 +82,7 @@ public class LeadboltCustomEventBannerAdapter implements CustomEventBanner {
 	}
 
 	@Override
-	public void requestBannerAd(CustomEventBannerListener listener, Activity activity, String label, String serverParameter, AdSize size, MediationAdRequest mediationAdRequest) {
+	public void requestBannerAd(CustomEventBannerListener listener, Activity activity, String label, String serverParameter, AdSize size, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		Log.d(LeadBoltAdapterTag, "Received LeadBolt custom event with parameters : " + serverParameter);
 
 		// DisplayMetrics metrics = new DisplayMetrics();
@@ -104,6 +104,10 @@ public class LeadboltCustomEventBannerAdapter implements CustomEventBanner {
 		leadboltAdController.loadAd();
 
 		Log.d(LeadBoltAdapterTag, "requestBannerAd method finished");
+	}
+
+	@Override
+	public void destroy() {
 	}
 
 }
