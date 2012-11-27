@@ -53,6 +53,7 @@
 		<module>leadbolt-adapter</module>
 		<module>mobclix-adapter</module>
 		<module>revmob-adapter</module>
+		<module>adcolony-adapter</module>
 	</modules>
 
 	<prerequisites>

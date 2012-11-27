@@ -23,5 +23,10 @@ revmob-adapter/.classpath
 revmob-adapter/.project
 revmob-adapter/.settings/
 
+adcolony-adapter/target/
+adcolony-adapter/.classpath
+adcolony-adapter/.project
+adcolony-adapter/.settings/
+
 .project
 .settings/
