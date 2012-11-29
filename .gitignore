@@ -28,5 +28,10 @@ adcolony-adapter/.classpath
 adcolony-adapter/.project
 adcolony-adapter/.settings/
 
+millenialmedia-adapter/target/
+millenialmedia-adapter/.classpath
+millenialmedia-adapter/.project
+millenialmedia-adapter/.settings/
+
 .project
 .settings/

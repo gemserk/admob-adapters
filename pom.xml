@@ -54,6 +54,7 @@
 		<module>mobclix-adapter</module>
 		<module>revmob-adapter</module>
 		<module>adcolony-adapter</module>
+		<module>millenialmedia-adapter</module>
 	</modules>
 
 	<prerequisites>
