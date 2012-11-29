@@ -26,7 +26,11 @@ public class MillenialMediaCustomEventInterstitial implements CustomEventInterst
 
 		@Override
 		public void MMAdCachingCompleted(MMAdView arg0, boolean arg1) {
-			Log.d(TAG, "Ad caching completed");
+			Log.d(TAG, "Ad caching completed: " + arg1);
+			if (arg1)
+				listener.onReceivedAd();
+			else
+				listener.onFailedToReceiveAd();
 		}
 
 		@Override
@@ -37,8 +41,14 @@ public class MillenialMediaCustomEventInterstitial implements CustomEventInterst
 
 		@Override
 		public void MMAdFailed(MMAdView arg0) {
-			Log.d(TAG, "Ad failed");
-			listener.onFailedToReceiveAd();
+			if (arg0.check()) {
+				Log.d(TAG, "Ad failed but ad already cached");
+				listener.onReceivedAd();
+			}
+			else {
+				Log.d(TAG, "Ad failed and no ad was cached");
+				listener.onFailedToReceiveAd();
+			}
 		}
 
 		@Override
@@ -49,13 +59,12 @@ public class MillenialMediaCustomEventInterstitial implements CustomEventInterst
 
 		@Override
 		public void MMAdRequestIsCaching(MMAdView arg0) {
-			Log.d(TAG, "Ad request is caching");
+			Log.d(TAG, "Ad request is caching, no admob listener call");
 		}
 
 		@Override
 		public void MMAdReturned(MMAdView arg0) {
-			Log.d(TAG, "Ad returned");
-			listener.onReceivedAd();
+			Log.d(TAG, "Ad returned, no admob listener call");
 		}
 
 	}
@@ -75,6 +84,11 @@ public class MillenialMediaCustomEventInterstitial implements CustomEventInterst
 	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		String apId = serverParameter;
 
+		if (mediationAdRequest.isTesting()) {
+			apId = MMAdViewSDK.DEFAULT_APID;
+			Log.d(TAG, "changing to testing apId: " + apId + " since mediationAdRequest.isTesting()");
+		}
+
 		if (apId == null || "".equals(apId)) {
 			Log.e(TAG, "failed with invalid serverParameter: " + serverParameter);
 			listener.onFailedToReceiveAd();
@@ -87,9 +101,13 @@ public class MillenialMediaCustomEventInterstitial implements CustomEventInterst
 		mmAdView.setId(MMAdViewSDK.DEFAULT_VIEWID + 1);
 		mmAdView.setListener(new MillenialMediaInterstitialListener(listener));
 
-		Log.d(TAG, "starting to fetch an ad");
-
-		mmAdView.fetch();
+		if (mmAdView.check()) {
+			Log.d(TAG, "ad already cached from previous call");
+			listener.onReceivedAd();
+		} else {
+			Log.d(TAG, "ad not cached yet, starting to fetch a new ad");
+			mmAdView.fetch();
+		}
 	}
 
 	@Override
