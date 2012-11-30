@@ -67,7 +67,8 @@ public class MillenialMediaCustomEventBanner implements CustomEventBanner {
 
 		@Override
 		public void MMAdReturned(MMAdView arg0) {
-			Log.d(TAG, "Ad returned, no admob listener call");
+			Log.d(TAG, "Ad returned");
+			listener.onReceivedAd(wrappedView);
 		}
 	}
 
