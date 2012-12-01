@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.gemserk.admob</groupId>
+    <artifactId>parent-adapter</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+ 	<packaging>jar</packaging>
+	<artifactId>playhaven-adapter</artifactId>
+	<name>Playhaven adapter for AdMob Mediation</name>
+	<description>Playhaven adapter for AdMob Mediation</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.ads.admob</groupId>
+			<artifactId>admob</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.playhaven</groupId>
+			<artifactId>playhaven-ads</artifactId>
+ 			<version>1.12.1</version>
+<!--			<version>1.12.1-GEMSERK</version>-->
+		</dependency>
+	</dependencies>
+</project>

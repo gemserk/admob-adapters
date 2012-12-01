@@ -23,5 +23,16 @@ revmob-adapter/.classpath
 revmob-adapter/.project
 revmob-adapter/.settings/
 
+tapjoy-adapter/target/
+tapjoy-adapter/.classpath
+tapjoy-adapter/.project
+tapjoy-adapter/.settings/
+
+playhaven-adapter/target/
+playhaven-adapter/.classpath
+playhaven-adapter/.project
+playhaven-adapter/.settings/
+
 .project
 .settings/
+.classpath
