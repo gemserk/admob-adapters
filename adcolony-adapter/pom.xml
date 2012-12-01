@@ -9,11 +9,15 @@
 	</parent>
 
 	<packaging>jar</packaging>
-	<artifactId>leadbolt-adapter</artifactId>
-	<name>LeadBolt adapter for AdMob Mediation</name>
-	<description>LeadBolt adapter for AdMob Mediation</description>
+	<artifactId>adcolony-adapter</artifactId>
+	<name>AdColony adapter for AdMob Mediation</name>
+	<description>AdColony adapter for AdMob Mediation</description>
 
 	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
@@ -23,9 +27,9 @@
 			<artifactId>admob</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.leadbolt</groupId>
-			<artifactId>leadbolt-ads</artifactId>
-			<version>4.0.0</version>
+			<groupId>com.adcolony</groupId>
+			<artifactId>adcolony-ads</artifactId>
+			<version>1.9.11</version>
 		</dependency>
 	</dependencies>
 

@@ -33,6 +33,16 @@ playhaven-adapter/.classpath
 playhaven-adapter/.project
 playhaven-adapter/.settings/
 
+adcolony-adapter/target/
+adcolony-adapter/.classpath
+adcolony-adapter/.project
+adcolony-adapter/.settings/
+
+millenialmedia-adapter/target/
+millenialmedia-adapter/.classpath
+millenialmedia-adapter/.project
+millenialmedia-adapter/.settings/
+
 .project
 .settings/
 .classpath

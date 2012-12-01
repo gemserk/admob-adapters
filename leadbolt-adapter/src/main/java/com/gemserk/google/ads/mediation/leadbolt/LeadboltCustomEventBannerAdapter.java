@@ -102,12 +102,13 @@ public class LeadboltCustomEventBannerAdapter implements CustomEventBanner {
 		leadboltAdController.setLayout(relativeLayout);
 		// leadboltAdController.setAsynchTask(false);
 		leadboltAdController.loadAd();
-
+		
 		Log.d(LeadBoltAdapterTag, "requestBannerAd method finished");
 	}
 
 	@Override
 	public void destroy() {
+		
 	}
 
 }
