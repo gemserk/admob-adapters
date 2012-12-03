@@ -32,7 +32,7 @@ public class MillenialMediaCustomEventBanner implements CustomEventBanner {
 		public void MMAdCachingCompleted(MMAdView arg0, boolean arg1) {
 			Log.d(TAG, "Ad caching completed: " + arg1);
 			if (arg1)
-				listener.onReceivedAd(wrappedView);
+				onReceivedAd(arg0);
 			else
 				listener.onFailedToReceiveAd();
 		}
@@ -47,35 +47,39 @@ public class MillenialMediaCustomEventBanner implements CustomEventBanner {
 		public void MMAdFailed(MMAdView arg0) {
 			if (arg0.check()) {
 				Log.d(TAG, "Ad failed but ad already cached");
-				listener.onReceivedAd(wrappedView);
+				onReceivedAd(arg0);
 			} else {
 				Log.d(TAG, "Ad failed and no ad was cached");
 				listener.onFailedToReceiveAd();
 			}
 		}
 
+		private void onReceivedAd(MMAdView adView) {
+			listener.onReceivedAd(wrappedView);
+		}
+
 		@Override
-		public void MMAdOverlayLaunched(MMAdView arg0) {
+		public void MMAdOverlayLaunched(MMAdView adView) {
 			Log.d(TAG, "Ad overlay launched");
 			listener.onPresentScreen();
 		}
 
 		@Override
-		public void MMAdRequestIsCaching(MMAdView arg0) {
+		public void MMAdRequestIsCaching(MMAdView adView) {
 			Log.d(TAG, "Ad request is caching, no admob listener call");
 		}
 
 		@Override
-		public void MMAdReturned(MMAdView arg0) {
+		public void MMAdReturned(MMAdView adView) {
 			Log.d(TAG, "Ad returned");
-			listener.onReceivedAd(wrappedView);
+			onReceivedAd(adView);
 		}
 	}
 
 	private static final String TAG = "MillenialMediaCustomEventBanner";
 
 	public static String defaultAdType = MMAdView.BANNER_AD_TOP;
-	
+
 	public static final Hashtable<String, String> metadata = new Hashtable<String, String>();
 
 	@Override
@@ -105,15 +109,19 @@ public class MillenialMediaCustomEventBanner implements CustomEventBanner {
 		DisplayMetrics metrics = new DisplayMetrics();
 		activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-		int width = (int) (320 * metrics.density);
-		int height = (int) (50 * metrics.density);
-		
-		metadata.put("width", Integer.toString(width));
-		metadata.put("height", Integer.toString(height));
+		int adWidth = size.getWidth();
+		int adHeight = size.getHeight();
 
-		FrameLayout.LayoutParams wrappedLayoutParams = new FrameLayout.LayoutParams(width, height);
+		int width = (int) (adWidth * metrics.density);
+		int height = (int) (adHeight * metrics.density);
+
+		metadata.put("width", Integer.toString(adWidth));
+		metadata.put("height", Integer.toString(adHeight));
 
 		FrameLayout wrappedView = new FrameLayout(activity);
+
+		// FrameLayout.LayoutParams wrappedLayoutParams = new FrameLayout.LayoutParams(width, adHeight == 50 ? (int) ((adHeight + 3) * metrics.density) : height);
+		FrameLayout.LayoutParams wrappedLayoutParams = new FrameLayout.LayoutParams(width, height);
 		wrappedView.setLayoutParams(wrappedLayoutParams);
 
 		MMAdView adView = new MMAdView(activity, apId, defaultAdType, MMAdView.REFRESH_INTERVAL_OFF, metadata);
@@ -122,7 +130,7 @@ public class MillenialMediaCustomEventBanner implements CustomEventBanner {
 		wrappedView.addView(adView, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
 
 		adView.setListener(new MillenialMediaBannerListener(listener, wrappedView));
-		
+
 		adView.callForAd();
 	}
 
