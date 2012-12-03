@@ -120,8 +120,8 @@ public class MillenialMediaCustomEventBanner implements CustomEventBanner {
 
 		FrameLayout wrappedView = new FrameLayout(activity);
 
-		// FrameLayout.LayoutParams wrappedLayoutParams = new FrameLayout.LayoutParams(width, adHeight == 50 ? (int) ((adHeight + 3) * metrics.density) : height);
-		FrameLayout.LayoutParams wrappedLayoutParams = new FrameLayout.LayoutParams(width, height);
+		FrameLayout.LayoutParams wrappedLayoutParams = new FrameLayout.LayoutParams(width, adHeight == 50 ? (int) ((adHeight + 3) * metrics.density) : height);
+		// FrameLayout.LayoutParams wrappedLayoutParams = new FrameLayout.LayoutParams(width, height);
 		wrappedView.setLayoutParams(wrappedLayoutParams);
 
 		MMAdView adView = new MMAdView(activity, apId, defaultAdType, MMAdView.REFRESH_INTERVAL_OFF, metadata);
