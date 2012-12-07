@@ -96,10 +96,11 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 
 		Log.d(ChartBoostCustomEventTag, "Received custom event with appId:" + appId + ", appSignature:" + appSignature);
 
-		cb.setAppId(appId);
-		cb.setAppSignature(appSignature);
-
-		if (ChartBoostCustomEventInterstitial.shouldInstall) {
+		if (ChartBoostCustomEventInterstitial.shouldInstall || !appId.equals(cb.getAppId()) || !appSignature.equals(cb.getAppSignature())) {
+			Log.d(ChartBoostCustomEventTag, "Installing chartboost with appId:" + appId + ", appSignature:" + appSignature);
+			cb.setAppId(appId);
+			cb.setAppSignature(appSignature);
+			
 			cb.clearCache();
 			cb.install();
 			ChartBoostCustomEventInterstitial.shouldInstall = false;
