@@ -35,7 +35,7 @@ public class MobclixCustomEventBanner implements CustomEventBanner {
 
 		@Override
 		public void onFailedLoad(MobclixAdView adView, int paramInt) {
-			Log.d(MobclixAdapterTag, "onFailedLoad");
+			Log.d(MobclixAdapterTag, "onFailedLoad - " + paramInt);
 			listener.onFailedToReceiveAd();
 			adView.pause();
 		}
