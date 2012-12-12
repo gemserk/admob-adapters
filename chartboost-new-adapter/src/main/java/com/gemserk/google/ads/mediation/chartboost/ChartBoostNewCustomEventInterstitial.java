@@ -1,6 +1,7 @@
 package com.gemserk.google.ads.mediation.chartboost;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
 import com.chartboost.sdk.Chartboost;
@@ -10,120 +11,115 @@ import com.google.ads.mediation.customevent.CustomEventInterstitialListener;
 
 public class ChartBoostNewCustomEventInterstitial implements CustomEventInterstitial {
 
-	private static final String ChartBoostCustomEventTag = "ChartBoostCustomEvent";
+	private static final String Tag = "ChartBoostNewCustomEventInterstitial";
+
+	// Should be set in the moment Chartboost instance is created as the main ChartboostDelegate.
+	public static ChartBoostMainDelegate mainDelegate = new ChartBoostMainDelegate();
+
 	private Chartboost cb;
+	private Activity activity;
 
-	public static boolean shouldInstall = true;
+	public static class InternalChartBoostDelegate extends ChartBoostDelegateAdapter {
 
-//	private class InternalChartBoostDelegate extends ChartBoostDelegate {
-//
-//		private final int cacheCheckThreadSleepTime = 100;
-//		private final int cacheCheckThreadSleepTimeout = 10000;
-//
-//		CustomEventInterstitialListener listener;
-//		Thread thread;
-//
-//		public InternalChartBoostDelegate(CustomEventInterstitialListener listener) {
-//			this.listener = listener;
-//			this.thread = new Thread(new Runnable() {
-//				@Override
-//				public void run() {
-//					try {
-//						int time = cacheCheckThreadSleepTimeout;
-//						while (time > 0) {
-//							Thread.sleep(cacheCheckThreadSleepTime);
-//							time -= cacheCheckThreadSleepTime;
-//							if (cb.hasCachedInterstitial()) {
-//								Log.d(ChartBoostCustomEventTag, "Interstitial ad ready");
-//								InternalChartBoostDelegate.this.listener.onReceivedAd();
-//								return;
-//							}
-//						}
-//						Log.d(ChartBoostCustomEventTag, "Cached interstitial ad request timeout");
-//						InternalChartBoostDelegate.this.listener.onFailedToReceiveAd();
-//					} catch (InterruptedException e) {
-//
-//					}
-//				}
-//			});
-//			thread.start();
-//		}
-//
-//		@Override
-//		public void didFailToLoadInterstitial() {
-//			super.didFailToLoadInterstitial();
-//			listener.onFailedToReceiveAd();
-//			thread.interrupt();
-//		}
-//
-//		@Override
-//		public void didDismissInterstitial(View interstitialView) {
-//			super.didDismissInterstitial(interstitialView);
-//			listener.onDismissScreen();
-//		}
-//
-//		@Override
-//		public void didCloseInterstitial(View interstitialView) {
-//			super.didCloseInterstitial(interstitialView);
-//			listener.onDismissScreen();
-//		}
-//
-//		@Override
-//		public void didClickInterstitial(View interstitialView) {
-//			super.didClickInterstitial(interstitialView);
-//			listener.onLeaveApplication();
-//		}
-//
-//	}
+		private CustomEventInterstitialListener listener;
+
+		public InternalChartBoostDelegate(CustomEventInterstitialListener listener) {
+			this.listener = listener;
+		}
+
+		@Override
+		public void didCacheInterstitial(String paramString) {
+			super.didCacheInterstitial(paramString);
+			Log.d(Tag, "interstitial cached " + paramString);
+			listener.onReceivedAd();
+		}
+
+		@Override
+		public void didFailToLoadInterstitial(String paramString) {
+			super.didFailToLoadInterstitial(paramString);
+			Log.d(Tag, "interstitial failed to load " + paramString);
+			listener.onFailedToReceiveAd();
+		}
+
+		@Override
+		public void didClickInterstitial(String paramString) {
+			super.didClickInterstitial(paramString);
+			Log.d(Tag, "interstitial clicked" + paramString);
+			listener.onLeaveApplication();
+		}
+
+		@Override
+		public void didShowInterstitial(String paramString) {
+			super.didShowInterstitial(paramString);
+			Log.d(Tag, "interstitial shown " + paramString);
+			listener.onPresentScreen();
+		}
+
+		@Override
+		public void didCloseInterstitial(String paramString) {
+			super.didCloseInterstitial(paramString);
+			Log.d(Tag, "interstitial closed " + paramString);
+			listener.onDismissScreen();
+		}
+
+	}
 
 	@Override
 	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest, Object customEventExtra) {
-		Log.d(ChartBoostCustomEventTag, "Received an interstitial ad request for " + label);
+		this.activity = activity;
 
-		cb = Chartboost.getSharedChartBoost(activity);
-		cb.setDelegate(new InternalChartBoostDelegate(listener));
+		Log.d(Tag, "Received an interstitial ad request for " + label);
+
+		// access the main delegate, assumes it is not null
+
+		cb = Chartboost.sharedChartboost();
+
+		// cb.setDelegate(new InternalChartBoostDelegate(listener));
 
 		String[] parameters = serverParameter.split(",");
 		if (parameters.length != 2) {
-			Log.d(ChartBoostCustomEventTag, "Invalid parameter " + serverParameter + ", needed \"appId,appSignature\"");
+			Log.d(Tag, "Invalid parameter " + serverParameter + ", needed \"appId,appSignature\"");
 			return;
 		}
 
 		String appId = parameters[0];
 		String appSignature = parameters[1];
 
-		Log.d(ChartBoostCustomEventTag, "Received custom event with appId:" + appId + ", appSignature:" + appSignature);
+		Log.d(Tag, "Received custom event with appId:" + appId + ", appSignature:" + appSignature);
 
-		if (ChartBoostNewCustomEventInterstitial.shouldInstall || !appId.equals(cb.getAppId()) || !appSignature.equals(cb.getAppSignature())) {
-			Log.d(ChartBoostCustomEventTag, "Installing chartboost with appId:" + appId + ", appSignature:" + appSignature);
-			cb.setAppId(appId);
-			cb.setAppSignature(appSignature);
-			
-			cb.clearCache();
-			cb.install();
-			ChartBoostNewCustomEventInterstitial.shouldInstall = false;
-		}
+		// if (ChartBoostNewCustomEventInterstitial.shouldInstall || !appId.equals(cb.getAppId()) || !appSignature.equals(cb.getAppSignature())) {
+		// Log.d(ChartBoostCustomEventTag, "Installing chartboost with appId:" + appId + ", appSignature:" + appSignature);
+		// cb.setAppId(appId);
+		// cb.setAppSignature(appSignature);
+		//
+		// cb.clearCache();
+		// cb.install();
+		// ChartBoostNewCustomEventInterstitial.shouldInstall = false;
+		// }
+
+		mainDelegate.setAdapterDelegate(new InternalChartBoostDelegate(listener));
 
 		if (cb.hasCachedInterstitial()) {
-			Log.d(ChartBoostCustomEventTag, "Interstitial already cached");
+			Log.d(Tag, "Interstitial already cached");
 			listener.onReceivedAd();
 			return;
 		}
 
-		Log.d(ChartBoostCustomEventTag, "Caching interstitial ad");
+		Log.d(Tag, "Caching interstitial ad");
 		cb.cacheInterstitial();
 	}
 
 	@Override
 	public void showInterstitial() {
-		Log.d(ChartBoostCustomEventTag, "Showing previously loaded interstitial ad");
+		Log.d(Tag, "Showing previously loaded interstitial ad");
 		cb.showInterstitial();
+		Intent intent = new Intent(activity, ChartBoostInterstitialActivity.class);
+		activity.startActivity(intent);
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+		mainDelegate.unsetAdapterDelegate();
 	}
 
 }
