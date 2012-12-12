@@ -3,6 +3,7 @@ package com.gemserk.google.ads.mediation.chartboost;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 
 import com.chartboost.sdk.Chartboost;
 
@@ -15,10 +16,11 @@ public class ChartBoostInterstitialActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		cb = Chartboost.sharedChartboost();
 		Log.d(Tag, "onCreate()");
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -49,7 +51,6 @@ public class ChartBoostInterstitialActivity extends Activity {
 		super.onStop();
 		Log.d(Tag, "onStop()");
 		cb.onStop(this);
-
 		// removes the delegate from the static delegate.
 		ChartBoostNewCustomEventInterstitial.mainDelegate.unsetActivityDelegate();
 	}
