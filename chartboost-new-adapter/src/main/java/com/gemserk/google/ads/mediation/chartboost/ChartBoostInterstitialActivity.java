@@ -30,15 +30,8 @@ public class ChartBoostInterstitialActivity extends Activity {
 		// configures the activity delegate in the static delegate.
 		ChartBoostNewCustomEventInterstitial.mainDelegate.setActivityDelegate(new ChartBoostDelegateAdapter() {
 			@Override
-			public void didClickInterstitial(String paramString) {
-				super.didClickInterstitial(paramString);
-				ChartBoostInterstitialActivity.this.finish();
-			}
-
-			@Override
-			public void didCloseInterstitial(String paramString) {
-				super.didCloseInterstitial(paramString);
-				// this is probably not needed if closed with back button.
+			public void didDismissInterstitial(String paramString) {
+				super.didDismissInterstitial(paramString);
 				ChartBoostInterstitialActivity.this.finish();
 			}
 		});
