@@ -112,7 +112,6 @@ public class ChartBoostNewCustomEventInterstitial implements CustomEventIntersti
 	@Override
 	public void showInterstitial() {
 		Log.d(Tag, "Showing previously loaded interstitial ad");
-		cb.showInterstitial();
 		Intent intent = new Intent(activity, ChartBoostInterstitialActivity.class);
 		activity.startActivity(intent);
 	}
