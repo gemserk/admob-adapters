@@ -50,6 +50,7 @@
 
 	<modules>
 		<module>chartboost-adapter</module>
+		<module>chartboost-new-adapter</module>
 		<module>flurry-adapter</module>
 		<module>leadbolt-adapter</module>
 		<module>mobclix-adapter</module>
