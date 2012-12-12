@@ -46,13 +46,13 @@ public class ChartBoostDelegateAdapter implements ChartboostDelegate {
 
 	@Override
 	public boolean shouldDisplayLoadingViewForMoreApps() {
-		return true;
+		return false;
 		
 	}
 
 	@Override
 	public boolean shouldRequestMoreApps() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class ChartBoostDelegateAdapter implements ChartboostDelegate {
 
 	@Override
 	public boolean shouldDisplayMoreApps() {
-		return true;
+		return false;
 	}
 
 	@Override
