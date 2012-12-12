@@ -40,6 +40,7 @@ public class MillenialMediaCustomEventBanner implements CustomEventBanner {
 		@Override
 		public void MMAdClickedToOverlay(MMAdView arg0) {
 			Log.d(TAG, "Ad clicked to overlay");
+			listener.onClick();
 			listener.onLeaveApplication();
 		}
 

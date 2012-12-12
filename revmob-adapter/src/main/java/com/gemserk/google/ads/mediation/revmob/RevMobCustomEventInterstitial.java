@@ -92,6 +92,7 @@ public class RevMobCustomEventInterstitial implements CustomEventInterstitial {
 
 	@Override
 	public void destroy() {
+		
 	}
 
 }
