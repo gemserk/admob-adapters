@@ -7,19 +7,19 @@ import com.google.ads.mediation.MediationAdRequest;
 import com.google.ads.mediation.customevent.CustomEventInterstitial;
 import com.google.ads.mediation.customevent.CustomEventInterstitialListener;
 import com.revmob.RevMob;
-import com.revmob.ads.EnvironmentConfig;
-import com.revmob.ads.RevMobAdsListener;
-import com.revmob.ads.fullscreen.Fullscreen;
+import com.revmob.RevMobAdsListener;
+import com.revmob.RevMobTestingMode;
+import com.revmob.ads.fullscreen.RevMobFullscreen;
 
 public class RevMobCustomEventInterstitial implements CustomEventInterstitial {
 
 	private static final String Tag = "RevmobInterstitialAdapter";
 
-	private class RecMobAdslistener implements RevMobAdsListener {
+	private class RevMobAdslistener implements RevMobAdsListener {
 
 		private final CustomEventInterstitialListener listener;
 
-		public RecMobAdslistener(CustomEventInterstitialListener listener) {
+		public RevMobAdslistener(CustomEventInterstitialListener listener) {
 			this.listener = listener;
 		}
 
@@ -46,17 +46,21 @@ public class RevMobCustomEventInterstitial implements CustomEventInterstitial {
 			Log.d(Tag, "On ad clicked");
 			listener.onLeaveApplication();
 		}
+
+		@Override
+		public void onRevMobAdDisplayed() {
+			Log.d(Tag, "On ad shown");
+			listener.onPresentScreen();
+		}
 	}
 
 	private String appId;
 	private String placementId;
-	private Fullscreen fullscreen;
+	private RevMobFullscreen fullscreen;
 
 	@Override
 	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		Log.d(Tag, "Ad request received with parameters " + serverParameter);
-
-		EnvironmentConfig.setTestingMode(mediationAdRequest.isTesting());
 
 		String[] parameters = serverParameter.split(",");
 
@@ -72,15 +76,21 @@ public class RevMobCustomEventInterstitial implements CustomEventInterstitial {
 
 		
 		RevMob revMob = RevMobInstance.getInstance(activity, appId);
+		
+		if (mediationAdRequest.isTesting()) {
+			Log.d(Tag, "Test mode enabled");
+			revMob.setTestingMode(RevMobTestingMode.WITH_ADS);
+		}
 
 		Log.d(Tag, "Starting fullscreen ad request with appId: " + appId + ", placementId: " + placementId);
 
-		if (placementId == null)
-			fullscreen = revMob.createFullscreen(activity);
-		else
-			fullscreen = revMob.createFullscreen(activity, placementId);
+		RevMobAdslistener revMobAdslistener = new RevMobAdslistener(listener);
 
-		fullscreen.setRevMobListener(new RecMobAdslistener(listener));
+		if (placementId == null)
+			fullscreen = revMob.createFullscreen(activity, revMobAdslistener);
+		else
+			fullscreen = revMob.createFullscreen(activity, placementId, revMobAdslistener);
+
 	}
 
 	@Override

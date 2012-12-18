@@ -9,7 +9,7 @@ public class RevMobInstance {
 	private static RevMob revMob;
 	
 	public static RevMob getInstance(Activity activity, String applicationId) {
-		if (revMob == null || !revMob.getAppId().equals(applicationId))
+		if (revMob == null)
 			 revMob = RevMob.start(activity, applicationId);
 		return revMob;
 	}

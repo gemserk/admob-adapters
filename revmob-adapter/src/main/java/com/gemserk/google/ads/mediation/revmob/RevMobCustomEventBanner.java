@@ -11,20 +11,23 @@ import com.google.ads.mediation.MediationAdRequest;
 import com.google.ads.mediation.customevent.CustomEventBanner;
 import com.google.ads.mediation.customevent.CustomEventBannerListener;
 import com.revmob.RevMob;
-import com.revmob.ads.EnvironmentConfig;
-import com.revmob.ads.RevMobAdsListener;
-import com.revmob.ads.banner.Banner;
+import com.revmob.RevMobAdsListener;
+import com.revmob.RevMobTestingMode;
+import com.revmob.ads.banner.RevMobBanner;
 
 public class RevMobCustomEventBanner implements CustomEventBanner {
 	
-	private class RevMobBannerListener implements RevMobAdsListener {
+	private static class RevMobBannerListener implements RevMobAdsListener {
 		
-		private final ViewGroup view;
+		private ViewGroup view;
 		private final CustomEventBannerListener listener;
-
-		public RevMobBannerListener(CustomEventBannerListener listener, ViewGroup view) {
-			this.listener = listener;
+		
+		public void setView(ViewGroup view) {
 			this.view = view;
+		}
+
+		public RevMobBannerListener(CustomEventBannerListener listener) {
+			this.listener = listener;
 		}
 
 		@Override
@@ -50,6 +53,12 @@ public class RevMobCustomEventBanner implements CustomEventBanner {
 			Log.d(Tag, "Ad clicked");
 			listener.onClick();
 		}
+
+		@Override
+		public void onRevMobAdDisplayed() {
+			Log.d(Tag, "Ad shown");
+			listener.onPresentScreen();
+		}
 	}
 
 	private static final String Tag = "RevmobBannerAdapter";
@@ -60,13 +69,6 @@ public class RevMobCustomEventBanner implements CustomEventBanner {
 	@Override
 	public void requestBannerAd(CustomEventBannerListener listener, Activity activity, String label, String serverParameter, AdSize size, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		Log.d(Tag, "Ad request received with parameters " + serverParameter);
-
-		boolean testMode = mediationAdRequest.isTesting();
-		
-		if (testMode) {
-			Log.d(Tag, "Test mode enabled");
-			EnvironmentConfig.setTestingMode(testMode);
-		}
 
 		String[] parameters = serverParameter.split(",");
 
@@ -81,6 +83,11 @@ public class RevMobCustomEventBanner implements CustomEventBanner {
 			placementId = parameters[1];
 		
 		RevMob revMob = RevMobInstance.getInstance(activity, appId);
+		
+		if (mediationAdRequest.isTesting()) {
+			Log.d(Tag, "Test mode enabled");
+			revMob.setTestingMode(RevMobTestingMode.WITH_ADS);
+		}
 
 		Log.d(Tag, "Starting banner ad request with appId: " + appId + ", placementId: " + placementId);
 		
@@ -90,9 +97,12 @@ public class RevMobCustomEventBanner implements CustomEventBanner {
 		int width = (int) (size.getWidth() * metrics.density);
 		int height = (int) (size.getHeight() * metrics.density);
 		
-		Banner banner = revMob.createBanner(activity, placementId);
+		RevMobBannerListener revMobBannerListener = new RevMobBannerListener(listener);
+		
+		RevMobBanner banner = revMob.createBanner(activity, placementId, revMobBannerListener);
 		banner.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
-		banner.setAdsListener(new RevMobBannerListener(listener, banner));
+		
+		revMobBannerListener.setView(banner);
 	}
 
 	@Override
