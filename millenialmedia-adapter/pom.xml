@@ -27,8 +27,8 @@
 			<artifactId>admob</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.millenialmedia</groupId>
-			<artifactId>millenialmedia-ads</artifactId>
+			<groupId>com.millennialmedia</groupId>
+			<artifactId>millennialmedia-ads</artifactId>
 			<version>4.6.0</version>
 		</dependency>
 	</dependencies>
