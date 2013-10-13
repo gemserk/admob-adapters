@@ -2,22 +2,22 @@ package com.gemserk.google.ads.mediation.chartboost;
 
 import android.app.Activity;
 import android.util.Log;
-import android.view.View;
 
-import com.chartboost.sdk.ChartBoost;
-import com.chartboost.sdk.ChartBoostDelegate;
+import com.chartboost.sdk.Chartboost;
+import com.chartboost.sdk.ChartboostDefaultDelegate;
 import com.google.ads.mediation.MediationAdRequest;
 import com.google.ads.mediation.customevent.CustomEventInterstitial;
 import com.google.ads.mediation.customevent.CustomEventInterstitialListener;
 
 public class ChartBoostCustomEventInterstitial implements CustomEventInterstitial {
 
+	public static boolean shouldCreate = true;
+	public static boolean useActivitiesForImpressions = true;
+
 	private static final String ChartBoostCustomEventTag = "ChartBoostCustomEvent";
-	private ChartBoost cb;
+	private Chartboost cb;
 
-	public static boolean shouldInstall = true;
-
-	private class InternalChartBoostDelegate extends ChartBoostDelegate {
+	private class InternalChartBoostDelegate extends ChartboostDefaultDelegate {
 
 		private final int cacheCheckThreadSleepTime = 100;
 		private final int cacheCheckThreadSleepTimeout = 10000;
@@ -50,29 +50,29 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 			});
 			thread.start();
 		}
-
+		
 		@Override
-		public void didFailToLoadInterstitial() {
-			super.didFailToLoadInterstitial();
+		public void didFailToLoadInterstitial(String location) {
+			super.didFailToLoadInterstitial(location);
 			listener.onFailedToReceiveAd();
 			thread.interrupt();
 		}
 
 		@Override
-		public void didDismissInterstitial(View interstitialView) {
-			super.didDismissInterstitial(interstitialView);
+		public void didDismissInterstitial(String location) {
+			super.didDismissInterstitial(location);
 			listener.onDismissScreen();
 		}
-
+		
 		@Override
-		public void didCloseInterstitial(View interstitialView) {
-			super.didCloseInterstitial(interstitialView);
+		public void didCloseInterstitial(String location) {
+			super.didCloseInterstitial(location);
 			listener.onDismissScreen();
 		}
-
+		
 		@Override
-		public void didClickInterstitial(View interstitialView) {
-			super.didClickInterstitial(interstitialView);
+		public void didClickInterstitial(String location) {
+			super.didClickInterstitial(location);
 			listener.onLeaveApplication();
 		}
 
@@ -82,8 +82,7 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 	public void requestInterstitialAd(CustomEventInterstitialListener listener, Activity activity, String label, String serverParameter, MediationAdRequest mediationAdRequest, Object customEventExtra) {
 		Log.d(ChartBoostCustomEventTag, "Received an interstitial ad request for " + label);
 
-		cb = ChartBoost.getSharedChartBoost(activity);
-		cb.setDelegate(new InternalChartBoostDelegate(listener));
+		cb = Chartboost.sharedChartboost();
 
 		String[] parameters = serverParameter.split(",");
 		if (parameters.length != 2) {
@@ -95,16 +94,19 @@ public class ChartBoostCustomEventInterstitial implements CustomEventInterstitia
 		String appSignature = parameters[1];
 
 		Log.d(ChartBoostCustomEventTag, "Received custom event with appId:" + appId + ", appSignature:" + appSignature);
-
-		if (ChartBoostCustomEventInterstitial.shouldInstall || !appId.equals(cb.getAppId()) || !appSignature.equals(cb.getAppSignature())) {
-			Log.d(ChartBoostCustomEventTag, "Installing chartboost with appId:" + appId + ", appSignature:" + appSignature);
-			cb.setAppId(appId);
+		
+		if (ChartBoostCustomEventInterstitial.shouldCreate) {
+			cb.onCreate(activity, appId, appSignature, new InternalChartBoostDelegate(listener));
+			cb.setImpressionsUseActivities(ChartBoostCustomEventInterstitial.useActivitiesForImpressions);
+			cb.startSession();
+			ChartBoostCustomEventInterstitial.shouldCreate = false;
+		} else {
+			cb.setAppID(appId);
 			cb.setAppSignature(appSignature);
-			
-			cb.clearCache();
-			cb.install();
-			ChartBoostCustomEventInterstitial.shouldInstall = false;
+			cb.setDelegate(new InternalChartBoostDelegate(listener));
 		}
+
+		cb.clearCache();
 
 		if (cb.hasCachedInterstitial()) {
 			Log.d(ChartBoostCustomEventTag, "Interstitial already cached");
