@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gemserk.admob</groupId>
 	<artifactId>parent-adapter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>AdMob Custom Adapters</name>
 	<description>Custom Event Adapters for ads networks not supported in AdMob mediation yet</description>
@@ -131,7 +131,7 @@
 			<dependency>
 				<groupId>com.google.ads.admob</groupId>
 				<artifactId>admob</artifactId>
-				<version>6.2.1</version>
+				<version>6.4.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.android</groupId>

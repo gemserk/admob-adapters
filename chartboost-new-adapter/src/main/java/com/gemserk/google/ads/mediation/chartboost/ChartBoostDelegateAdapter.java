@@ -95,4 +95,9 @@ public class ChartBoostDelegateAdapter implements ChartboostDelegate {
 		return true;
 	}
 
+	@Override
+	public void didFailToLoadUrl(String url) {
+		
+	}
+
 }
