@@ -95,9 +95,8 @@ public class RevMobCustomEventInterstitial implements CustomEventInterstitial {
 
 	@Override
 	public void showInterstitial() {
-		if (fullscreen.isAdLoaded()) {
+		if (fullscreen != null)
 			fullscreen.show();
-		}
 	}
 
 	@Override
