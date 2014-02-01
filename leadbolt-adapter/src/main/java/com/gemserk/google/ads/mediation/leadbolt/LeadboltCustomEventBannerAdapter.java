@@ -3,6 +3,7 @@ package com.gemserk.google.ads.mediation.leadbolt;
 import android.app.Activity;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.google.ads.AdSize;
@@ -20,6 +21,7 @@ public class LeadboltCustomEventBannerAdapter implements CustomEventBanner {
 
 		private final CustomEventBannerListener listener;
 		private final ViewGroup view;
+		private View childView;
 
 		public LeadboltAdListener(CustomEventBannerListener listener, ViewGroup view) {
 			this.listener = listener;
@@ -44,7 +46,9 @@ public class LeadboltCustomEventBannerAdapter implements CustomEventBanner {
 		@Override
 		public void onAdLoaded() {
 			Log.d(LeadBoltAdapterTag, "onAdLoaded");
-			listener.onReceivedAd(view);
+			childView = view.getChildAt(0);
+			view.removeAllViews();
+			listener.onReceivedAd(childView);
 		}
 
 		@Override
